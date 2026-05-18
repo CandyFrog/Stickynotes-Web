@@ -134,17 +134,21 @@ export default function Home() {
             key={note.id}
           >
             <h3 className="mb-3 text-pink-800 font-bold text-xl">{note.judul}</h3>
-            <p className="leading-relaxed whitespace-pre-wrap">{note.isi}</p>
-            <button
-              onClick={() => handleEdit(note)}
-              className=""
-            > EDIT
-            </button>
-            <button
-              onClick={() => handleDelete(note.id)}
-              className=""
-            > DELETE
-            </button>
+            <p className="leading-relaxed whitespace-pre-wrap mb-6 flex-1">{note.isi}</p>
+            <div className="flex gap-3 mt-auto">
+              <button
+                onClick={() => handleEdit(note)}
+                className="flex-1 py-2.5 px-4 bg-white/60 hover:bg-white text-pink-700 font-bold rounded-2xl transition-all shadow-sm hover:shadow-md text-sm border border-pink-100"
+              >
+                Edit
+              </button>
+              <button
+                onClick={() => handleDelete(note.id)}
+                className="flex-1 py-2.5 px-4 bg-rose-500 hover:bg-rose-600 text-white font-bold rounded-2xl transition-all shadow-sm hover:shadow-md text-sm"
+              >
+                Delete
+              </button>
+            </div>
           </div>
         ))}
       </div>
