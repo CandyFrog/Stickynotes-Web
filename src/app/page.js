@@ -1,5 +1,6 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+
 
 export default function Home() {
   // State dengan tambahan 'id' dari logika keduamu
@@ -16,12 +17,24 @@ export default function Home() {
     },
   ]);
 
+  // useEffect 1
+  useEffect(() => {
+    const savedNotes = localStorage.getItem("notesLS");
+
+    if(savedNotes){
+      setNotes(JSON.parse(savedNotes));
+    }
+  }, []);
+
+  // useEffect 2
+  useEffect(()=>{
+    localStorage.setItem("notesLS", JSON.stringify(notes));
+  }, [notes]);
+
   const [showModal, setShowModal] = useState(false);
   const [judul, setJudul] = useState("");
   const [isi, setIsi] = useState("");
-
   const [isEdit, setIsEdit] = useState(false);
-
   const [selectedId, setSelectedId] = useState(null);
 
   const handleEdit = (note) => {
@@ -31,6 +44,16 @@ export default function Home() {
 
     setJudul(note.judul);
     setIsi(note.isi);
+  };
+
+  const handleDelete = (id) => {
+    const confirmDelete = confirm("Apakah yakin akan dihapus?");
+    if (confirmDelete) {
+      const filteredNotes = notes.filter(
+        (note) => note.id !== id
+      );
+      setNotes(filteredNotes);
+    }
   };
 
   // Logika simpan
@@ -43,7 +66,7 @@ export default function Home() {
     }
 
     if (isEdit) {
-      const updatedNotes = notes.map((note)=> 
+      const updatedNotes = notes.map((note) =>
         note.id === selectedId ? {
           ...note,
           judul,
